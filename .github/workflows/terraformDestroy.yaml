@@ -1,0 +1,79 @@
+name: terraform || azure-reasources || destroy
+
+run-name: run-by user-${{ github.actor }} from branch-${{ github.ref_name }} with run-id-${{ github.run_id }} with workflow#${{ github.run_number }}
+
+on:
+  workflow_dispatch:
+
+env:
+  working-directory: ./terraform
+
+jobs:
+  terraform-destroy-plan:
+    name: Terraform Destroy Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: latest
+
+      - name: Azure Login
+        uses: azure/login@v3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+        working-directory: ${{ env.working-directory }}
+
+      - name: Terraform Destroy Plan  
+        id: destroy-plan
+        run: terraform plan -destroy -out=destroy.tfplan
+        working-directory: ${{ env.working-directory }}
+
+      - name: Upload Terraform Destroy Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-destroy
+          path: ${{ env.working-directory }}/destroy.tfplan
+
+  terraform-destroy-apply:
+    name: Terraform Destroy Apply
+    runs-on: ubuntu-latest
+    needs: terraform-destroy-plan
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: latest
+
+      - name: Azure Login
+        uses: azure/login@v3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download Terraform Destory Plan
+        uses: actions/download-artifact@v8
+        with:
+          name: terraform-destroy
+          path: ${{ env.working-directory }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+        working-directory: ${{ env.working-directory }}
+
+      - name: Terraform Destroy Apply
+        id: destroy-apply
+        run: terraform apply destroy.tfplan
+        working-directory: ${{ env.working-directory }}
