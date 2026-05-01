@@ -11,7 +11,7 @@ locals {
     sku    = "Standard"
   }
   search_service = {
-    sku           = "Free"
+    sku           = "free"
     identity_type = "SystemAssigned"
   }
   storage = {
