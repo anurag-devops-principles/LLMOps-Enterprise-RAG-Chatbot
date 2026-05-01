@@ -62,7 +62,7 @@ output "user_identity" {
 output "role_assigment" {
   value = {
     for key, value in azurerm_role_assignment.role_assignment : key => {
-      id                   = valiue.id
+      id                   = value.id
       scope                = value.scope
       role_definition_name = value.role_definition_name
     }
