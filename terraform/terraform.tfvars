@@ -11,19 +11,19 @@ open_ai_models = {
 
 role_assignment = {
   open_ai = {
-    scope = "open_ai"
+    scope                = "open_ai"
     role_definition_name = "open_ai"
   }
   search_service = {
-    scope = "search_service"
-    role_definiton_name = "search_service"
+    scope                = "search_service"
+    role_definition_name = "search_service"
   }
   search_service_ingest = {
-    scope = "search_service_ingest"
-    role_definiton_name = "search_service_ingest"
+    scope                = "search_service_ingest"
+    role_definition_name = "search_service_ingest"
   }
   key_vault = {
-    scope = "key_vault"
-    role_definiton_name = "key_vault"
+    scope                = "key_vault"
+    role_definition_name = "key_vault"
   }
 }
