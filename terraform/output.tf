@@ -58,3 +58,13 @@ output "user_identity" {
     id   = azurerm_user_assigned_identity.user_identity.id
   }
 }
+
+output "role_assigment" {
+  value = {
+    for key, value in azurerm_role_assignment.role_assignment : key => {
+      id                   = valiue.id
+      scope                = value.scope
+      role_definition_name = value.role_definition_name
+    }
+  }
+}
