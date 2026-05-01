@@ -11,7 +11,7 @@ locals {
     sku    = "Standard"
   }
   search_service = {
-    sku           = "standard"
+    sku           = "Free"
     identity_type = "SystemAssigned"
   }
   storage = {
@@ -20,17 +20,24 @@ locals {
     container_access_type    = "private"
   }
   key_vault = {
-    enabled_for_disk_encryption = true
-    soft_delete_retention_days  = 7
-    purge_protection_enabled    = false
-    sku_name                    = "standard"
-    secret_permissions          = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore", "Purge"]
+    rbac_authorization_enabled = true
+    soft_delete_retention_days = 7
+    purge_protection_enabled   = false
+    sku_name                   = "standard"
   }
-  key_vault_secret = {
-    openai-endpint  = azurerm_cognitive_account.open_ai.endpoint
-    openai-key      = azurerm_cognitive_account.open_ai.key1
-    search-endpoint = azurerm_search_service.search_service.endpoint
-    search-key      = azurerm_search_service.search_service.primary_key
+  role_assignment = {
+    scope = {
+      open_ai               = azurerm_cognitive_account.opne_ai.id
+      search_service        = azurerm_search_service.search_service.id
+      search_service_ingest = azurerm_search_service.search_service.id
+      key_vault             = azurerm_key_vault.key_vault.id
+    }
+    rbac_name = {
+      open_ai               = "Congnitive Service OpenAI User"
+      search_service        = "Search Index Data Reader"
+      search_service_ingest = "Search Index Data Contributor"
+      key_vault             = "Key Vault Secrets User"
+    }
   }
 }
 

@@ -19,7 +19,7 @@ resource "azurerm_cognitive_account" "open_ai" {
 resource "azurerm_cognitive_deployment" "deployment_model" {
   for_each = var.open_ai_models
 
-  name                 = each.value.name
+  name                 = each.key
   cognitive_account_id = azurerm_cognitive_account.open_ai.id
 
   model {
@@ -66,30 +66,26 @@ resource "azurerm_key_vault" "key_vault" {
   location            = local.region
   resource_group_name = azurerm_resource_group.resource_group.name
 
-  enabled_for_disk_encryption = local.key_vault.enabled_for_disk_encryption
-  soft_delete_retention_days  = local.key_vault.soft_delete_retention_days
-  purge_protection_enabled    = local.key_vault.purge_protection_enabled
-  sku_name                    = local.key_vault.sku_name
+  rbac_authorization_enabled = local.key_vault.rbac_authorization_enabled
+  soft_delete_retention_days = local.key_vault.soft_delete_retention_days
+  purge_protection_enabled   = local.key_vault.purge_protection_enabled
+
+  sku_name = local.key_vault.sku_name
 
   tenant_id = data.azurerm_client_config.current.tenant_id
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
-
-    secret_permissions = local.key_vault.secret_permissions
-  }
 
   tags = local.common_tags
 }
 
-resource "azurerm_key_vault_secret" "key_vault_secret" {
-  depends_on = [azurerm_cognitive_account.open_ai, azurerm_cognitive_deployment.deployment_model, azurerm_search_service.search_service]
-  for_each   = var.key_vault_secrets
+resource "azurerm_user_assigned_identity" "user_identity" {
+  name                = "${local.name_prefix}-identity"
+  location            = local.region
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
 
-  name         = each.value.secret_name
-  value        = local.key_vault_secret[each.value.secret_value]
-  key_vault_id = azurerm_key_vault.key_vault.id
-
-  tags = local.common_tags
+resource "azurerm_role_assignment" "role_assignment" {
+  for_each             = var.role_assignment
+  scope                = local.role_assignment.scope[each.value.scope]
+  role_definition_name = local.role_assigment.rbac_name[each.value.role_definition_name]
+  principal_id         = azurerm_user_assignment_identity.user_identity.principal_id
 }

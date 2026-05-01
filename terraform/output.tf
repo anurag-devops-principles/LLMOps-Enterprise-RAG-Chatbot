@@ -16,7 +16,7 @@ output "cognitive_account" {
 
 output "cognitive_deployment" {
   value = {
-    for key, value in azurerm_cognitive_deployment.model : key => {
+    for key, value in azurerm_cognitive_deployment.deployment_model : key => {
       name = value.name
       id   = value.id
     }
@@ -42,5 +42,19 @@ output "storage_container" {
   value = {
     name = azurerm_storage_container.storage_container.name
     id   = azurerm_storage_container.storage_container.id
+  }
+}
+
+output "key_vault" {
+  value = {
+    name = azurerm_key_vault.key_vault.name
+    id   = azurerm_key_vault.key_vault.id
+  }
+}
+
+output "user_identity" {
+  value = {
+    name = azurerm_user_assigned_identity.user_identity.name
+    id   = azurerm_user_assigned_identity.user_identity.id
   }
 }

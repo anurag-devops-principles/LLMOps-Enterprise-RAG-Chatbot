@@ -10,9 +10,9 @@ variable "open_ai_models" {
   }))
 }
 
-variable "key_vault_secrets" {
+variable "role_assignment" {
   type = map(object({
-    secret_name  = string
-    secret_value = string
+    scope                = string
+    role_definition_name = string
   }))
 }
