@@ -1,6 +1,6 @@
 open_ai_models = {
   "chat_model" = {
-    name    = "gpt-4o-mini"
+    name    = "gpt-4.1-mini"
     version = "latest"
   }
   "embedding_model" = {
