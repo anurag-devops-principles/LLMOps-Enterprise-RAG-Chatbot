@@ -44,27 +44,3 @@ output "storage_container" {
     id   = azurerm_storage_container.storage_container.id
   }
 }
-
-output "key_vault" {
-  value = {
-    name = azurerm_key_vault.key_vault.name
-    id   = azurerm_key_vault.key_vault.id
-  }
-}
-
-output "user_identity" {
-  value = {
-    name = azurerm_user_assigned_identity.user_identity.name
-    id   = azurerm_user_assigned_identity.user_identity.id
-  }
-}
-
-output "role_assigment" {
-  value = {
-    for key, value in azurerm_role_assignment.role_assignment : key => {
-      id                   = value.id
-      scope                = value.scope
-      role_definition_name = value.role_definition_name
-    }
-  }
-}

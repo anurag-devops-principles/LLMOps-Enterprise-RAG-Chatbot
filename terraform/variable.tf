@@ -9,10 +9,3 @@ variable "open_ai_models" {
     version = string
   }))
 }
-
-variable "role_assignment" {
-  type = map(object({
-    scope                = string
-    role_definition_name = string
-  }))
-}
