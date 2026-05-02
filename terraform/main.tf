@@ -46,11 +46,12 @@ resource "azurerm_search_service" "search_service" {
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                     = replace("${local.name_prefix}-strg", "-", "")
-  location                 = local.region
-  resource_group_name      = azurerm_resource_group.resource_group.name
-  account_tier             = local.storage.account_tier
-  account_replication_type = local.storage.account_replication_type
+  name                            = replace("${local.name_prefix}-strg", "-", "")
+  location                        = local.region
+  resource_group_name             = azurerm_resource_group.resource_group.name
+  account_tier                    = local.storage.account_tier
+  account_replication_type        = local.storage.account_replication_type
+  allow_nested_items_to_be_public = local.storage.allow_nested_items_to_be_public
 
   tags = local.common_tags
 }
@@ -86,6 +87,6 @@ resource "azurerm_user_assigned_identity" "user_identity" {
 resource "azurerm_role_assignment" "role_assignment" {
   for_each             = var.role_assignment
   scope                = local.role_assignment.scope[each.value.scope]
-  role_definition_name = local.role_assigment.rbac_name[each.value.role_definition_name]
-  principal_id         = azurerm_user_assignment_identity.user_identity.principal_id
+  role_definition_name = local.role_assignment.rbac_name[each.value.role_definition_name]
+  principal_id         = azurerm_user_assigned_identity.user_identity.principal_id
 }
