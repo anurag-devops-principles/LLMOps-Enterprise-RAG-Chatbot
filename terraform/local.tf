@@ -22,8 +22,11 @@ locals {
 }
 
 locals {
-  kind            = "OpenAI"
-  openai_sku_name = "S0"
+
+  openai = {
+    kind = "OpenAI"
+    sku  = "S0"
+  }
 
   model = {
     format = "OpenAI"
@@ -57,7 +60,7 @@ locals {
       search_service  = azurerm_search_service.search_service.id
       key_vault       = azurerm_key_vault.key_vault.id
       storage_account = azurerm_storage_account.storage_account.id
-      acr             = azurerm_conatiner_registry.acr.id
+      acr             = azurerm_container_registry.acr.id
     }
 
     rbac_name = {

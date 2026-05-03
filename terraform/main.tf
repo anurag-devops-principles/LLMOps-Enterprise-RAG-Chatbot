@@ -9,8 +9,8 @@ resource "azurerm_cognitive_account" "open_ai" {
   name                  = "${local.name_prefix}-azure-open-ai"
   location              = local.region
   resource_group_name   = azurerm_resource_group.resource_group.name
-  kind                  = local.kind
-  sku_name              = local.openai_sku_name
+  kind                  = local.openai.kind
+  sku_name              = local.openai.sku
   custom_subdomain_name = "${local.name_prefix}-azure-openai"
 
   tags = local.common_tags
