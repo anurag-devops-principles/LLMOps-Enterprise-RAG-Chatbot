@@ -44,3 +44,35 @@ output "storage_container" {
     id   = azurerm_storage_container.storage_container.id
   }
 }
+
+output "key_vault" {
+  value = {
+    name = azurerm_key_vault.key_vault.name
+    uri  = azurerm_key_vault.key_vault.vault_uri
+    id   = azurerm_key_vault.key_vault.name
+  }
+}
+
+output "uami" {
+  value = {
+    name = azurerm_user_assigned_identity.uami.name
+    id   = azurerm_user_assigned_identity.uami.id
+  }
+}
+
+output "role_assignment" {
+  value = {
+    for key, value in azurerm_role_assignment.role_assignment : key => {
+      scope                = value.scope
+      role_definition_name = value.role_definition_name
+      id                   = value.id
+    }
+  }
+}
+
+output "app_environment" {
+  value = {
+    name = azurerm_container_app_environment.app_environment.name
+    id   = azurerm_container_app_environment.app_environment.id
+  }
+}
