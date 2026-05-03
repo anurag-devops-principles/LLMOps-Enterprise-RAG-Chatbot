@@ -72,7 +72,7 @@ locals {
 
   key_vault_secret = {
     openai_endpoint   = azurerm_cognitive_account.open_ai.endpoint
-    search_endpoint   = azurerm_search_service.search_service.query_endpoint
+    search_endpoint   = azurerm_search_service.search_service.endpoint
     search_index      = "rag-index"
     storage_account   = azurerm_storage_account.storage_account.name
     storage_container = azurerm_storage_container.storage_container.name

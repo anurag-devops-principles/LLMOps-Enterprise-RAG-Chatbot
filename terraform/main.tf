@@ -106,7 +106,7 @@ resource "azurerm_key_vault_secret" "vault_secrets" {
   key_vault_id = azurerm_key_vault.key_vault.id
 }
 
-resource "azurerm_conatiner_registry" "acr" {
+resource "azurerm_container_registry" "acr" {
   name                = replace("${local.name_prefix}-acr", "-", "")
   location            = local.region
   resource_group_name = azurerm_resource_group.resource_group.name
