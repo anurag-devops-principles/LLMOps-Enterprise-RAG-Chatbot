@@ -37,6 +37,14 @@ vault_secrets = {
     secret_name = "OPENAI-ENDPOINT"
     value       = "openai_endpoint"
   }
+  openai_chat_deployment = {
+    secret_name = "OPENAI-CHAT-DEPLOYMENT"
+    value       = "openai_chat_deployment"
+  }
+  openai_embedding_deployment = {
+    secret_name = "OPENAI-EMBEDDING-DEPLOYMENT"
+    value       = "openai_embedding_deployment"
+  }
   search_endpoint = {
     secret_name = "SEARCH-ENDPOINT"
     value       = "search_endpoint"

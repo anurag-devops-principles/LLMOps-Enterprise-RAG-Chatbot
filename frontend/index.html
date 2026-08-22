@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enterprise RAG Chatbot</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-label="Enterprise RAG chatbot">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">LLMOps RAG</p>
+            <h1>Enterprise RAG Chatbot</h1>
+          </div>
+          <div class="status" id="status" aria-live="polite">
+            <span class="status-dot"></span>
+            Checking
+          </div>
+        </header>
+
+        <section class="chat-window" id="chat-window" aria-live="polite">
+          <article class="message assistant">
+            <div class="avatar">AI</div>
+            <div class="bubble">
+              Ask a question about the indexed documents. If the answer is not in the search index, the backend can fall back to the chat model.
+            </div>
+          </article>
+        </section>
+
+        <form class="composer" id="chat-form">
+          <label class="sr-only" for="query">Message</label>
+          <textarea id="query" name="query" rows="2" placeholder="Ask about your enterprise documents..." required></textarea>
+          <button type="submit" id="send-button">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

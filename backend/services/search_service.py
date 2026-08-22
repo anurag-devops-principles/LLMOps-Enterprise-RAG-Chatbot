@@ -1,16 +1,13 @@
-import os
 from azure.search.documents import SearchClient
 from azure.search.documents.models import VectorizedQuery
-from azure.identity import DefaultAzureCredential
-from dotenv import load_dotenv
 
-load_dotenv()
+from config.settings import get_credential, get_setting
 
-credential = DefaultAzureCredential()
+credential = get_credential()
 
 search_client = SearchClient(
-    endpoint=os.getenv("SEARCH_ENDPOINT"),
-    index_name=os.getenv("SEARCH_INDEX"),
+    endpoint=get_setting("SEARCH_ENDPOINT"),
+    index_name=get_setting("SEARCH_INDEX"),
     credential=credential
 )
 

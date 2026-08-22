@@ -1,0 +1,13 @@
+.git
+.github
+.terraform
+terraform/.terraform
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/tfplan
+terraform/destroy.tfplan
+.env
+__pycache__
+*.pyc
+.venv
+venv

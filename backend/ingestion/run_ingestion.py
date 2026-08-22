@@ -1,7 +1,7 @@
-from blob_loader import list_blobs, load_pdf
-from chunker import chunk_text
-from embedder import generate_embedding
-from indexer import create_index, upload_documents
+from ingestion.blob_loader import list_blobs, load_pdf
+from ingestion.chunker import chunk_text
+from ingestion.embedder import generate_embedding
+from ingestion.indexer import create_index, upload_documents
 
 def run():
     create_index()

@@ -11,18 +11,15 @@ from azure.search.documents.indexes.models import (
     VectorSearchProfile,
     HnswAlgorithmConfiguration
 )
-from azure.identity import DefaultAzureCredential
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+from config.settings import get_credential, get_setting
 
-credential = DefaultAzureCredential()
+credential = get_credential()
 
 
 def create_index():
     client = SearchIndexClient(
-        endpoint=os.getenv("SEARCH_ENDPOINT"),
+        endpoint=get_setting("SEARCH_ENDPOINT"),
         credential=credential
     )
 
@@ -63,7 +60,7 @@ def create_index():
     )
 
     index = SearchIndex(
-        name=os.getenv("SEARCH_INDEX"),
+        name=get_setting("SEARCH_INDEX"),
         fields=fields,
         vector_search=vector_search
     )
@@ -75,8 +72,8 @@ def create_index():
 
 def upload_documents(documents):
     client = SearchClient(
-        endpoint=os.getenv("SEARCH_ENDPOINT"),
-        index_name=os.getenv("SEARCH_INDEX"),
+        endpoint=get_setting("SEARCH_ENDPOINT"),
+        index_name=get_setting("SEARCH_INDEX"),
         credential=credential
     )
 

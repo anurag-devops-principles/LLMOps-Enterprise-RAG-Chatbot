@@ -1,25 +1,26 @@
 from azure.storage.blob import BlobServiceClient
-from azure.identity import DefaultAzureCredential
-import os
 from io import BytesIO
 from pypdf import PdfReader
-from dotenv import load_dotenv
 
-load_dotenv()
+from config.settings import get_credential, get_setting
 
-credential = DefaultAzureCredential()
+credential = get_credential()
+
+
+def get_container_name():
+    return get_setting("STORAGE_CONTAINER") or get_setting("BLOB_CONTAINER")
 
 
 def get_blob_service():
     return BlobServiceClient(
-        account_url=f"https://{os.getenv('STORAGE_ACCOUNT')}.blob.core.windows.net",
+        account_url=f"https://{get_setting('STORAGE_ACCOUNT')}.blob.core.windows.net",
         credential=credential
     )
 
 
 def list_blobs():
     service = get_blob_service()
-    container_client = service.get_container_client(os.getenv("BLOB_CONTAINER"))
+    container_client = service.get_container_client(get_container_name())
 
     blobs = [blob.name for blob in container_client.list_blobs()]
 
@@ -32,7 +33,7 @@ def load_pdf(blob_name):
     service = get_blob_service()
 
     blob_client = service.get_blob_client(
-        container=os.getenv("BLOB_CONTAINER"),
+        container=get_container_name(),
         blob=blob_name
     )
 

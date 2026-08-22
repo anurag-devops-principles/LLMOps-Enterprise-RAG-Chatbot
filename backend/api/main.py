@@ -1,10 +1,25 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+
 from services.openai_service import get_chat_response, generate_embedding
 from services.search_service import search_documents
 
 app = FastAPI()
 
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+STATIC_DIR = FRONTEND_DIR / "static"
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
 @app.get("/")
+def frontend():
+    return FileResponse(FRONTEND_DIR / "index.html")
+
+
+@app.get("/health")
 def health():
     return {"status": "running"}
 

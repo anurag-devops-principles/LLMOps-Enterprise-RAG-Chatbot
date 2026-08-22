@@ -2,6 +2,7 @@ fastapi
 uvicorn
 openai
 azure-identity
+azure-keyvault-secrets
 azure-search-documents
 azure-storage-blob
 python-dotenv

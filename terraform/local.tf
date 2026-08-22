@@ -74,11 +74,13 @@ locals {
   }
 
   key_vault_secret = {
-    openai_endpoint   = azurerm_cognitive_account.open_ai.endpoint
-    search_endpoint   = azurerm_search_service.search_service.endpoint
-    search_index      = "rag-index"
-    storage_account   = azurerm_storage_account.storage_account.name
-    storage_container = azurerm_storage_container.storage_container.name
+    openai_endpoint             = azurerm_cognitive_account.open_ai.endpoint
+    openai_chat_deployment      = "chat_model"
+    openai_embedding_deployment = "embedding_model"
+    search_endpoint             = azurerm_search_service.search_service.endpoint
+    search_index                = "rag-index"
+    storage_account             = azurerm_storage_account.storage_account.name
+    storage_container           = azurerm_storage_container.storage_container.name
   }
 
   acr = {
